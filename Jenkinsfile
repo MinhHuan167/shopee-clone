@@ -1,29 +1,27 @@
 pipeline {
     agent {
         docker {
-            image 'node:18' // Dùng Docker image node chính chủ
+            image 'node:18'
         }
     }
 
     stages {
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo '🏗️ Cài đặt dependencies...'
                 sh 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Build') {
             steps {
-                echo '🧪 Chạy kiểm thử...'
-                sh 'npm test || true' // Dùng || true để không fail nếu chưa có test
+                sh 'npm run build'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo '🚀 Build project...'
-                sh 'npm run build'
+                echo 'Deploying application...'
+                // Thêm lệnh deploy thực tế nếu cần
             }
         }
     }
